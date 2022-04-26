@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8-debian
+    environment:
+      MYSQL_DATABASE: "goshorter_development"
+      MYSQL_USER: "goshorter"
+      MYSQL_PASSWORD: "goshorter"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
