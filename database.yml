@@ -1,42 +1,9 @@
 ---
 development:
-  dialect: cockroach
-  database: goshorter_development
-  host: {{ envOr "COCKROACH_HOST" "127.0.0.1"  }}
-  port: {{ envOr "COCKROACH_PORT" "26257"  }}
-  user: {{ envOr "COCKROACH_USER" "root"  }}
-  password: {{ envOr "COCKROACH_PASSWORD" ""  }}
-  pool: 5
-  options:
-    sslmode: disable
-    #sslrootcert: {{ envOr "COCKROACH_SSL_ROOTCERT" ""  }}
-    #sslcert: {{ envOr "COCKROACH_SSL_CERT" ""  }}
-    #sslkey: {{ envOr "COCKROACH_SSL_KEY" ""  }}
+  url: {{envOr "DEVELOPMENT_DATABASE_URL" "mysql://goshorter:goshorter@(localhost:3306)/goshorter_development?parseTime=true&multiStatements=true&readTimeout=3s&collation=utf8mb4_general_ci"}}
 
 test:
-  dialect: cockroach
-  database: goshorter_test
-  host: {{ envOr "COCKROACH_HOST" "127.0.0.1"  }}
-  port: {{ envOr "COCKROACH_PORT" "26257"  }}
-  user: {{ envOr "COCKROACH_USER" "root"  }}
-  password: {{ envOr "COCKROACH_PASSWORD" ""  }}
-  pool: 5
-  options:
-    sslmode: disable
-    #sslrootcert: {{ envOr "COCKROACH_SSL_ROOTCERT" ""  }}
-    #sslcert: {{ envOr "COCKROACH_SSL_CERT" ""  }}
-    #sslkey: {{ envOr "COCKROACH_SSL_KEY" ""  }}
+  url: {{envOr "TEST_DATABASE_URL" "mysql://root:root@(localhost:3306)/goshorter_test?parseTime=true&multiStatements=true&readTimeout=3s&collation=utf8mb4_general_ci"}}
 
 production:
-  dialect: cockroach
-  database: goshorter_production
-  host: {{ envOr "COCKROACH_HOST" "127.0.0.1"  }}
-  port: {{ envOr "COCKROACH_PORT" "26257"  }}
-  user: {{ envOr "COCKROACH_USER" "root"  }}
-  password: {{ envOr "COCKROACH_PASSWORD" ""  }}
-  pool: 5
-  options:
-    sslmode: disable
-    #sslrootcert: {{ envOr "COCKROACH_SSL_ROOTCERT" ""  }}
-    #sslcert: {{ envOr "COCKROACH_SSL_CERT" ""  }}
-    #sslkey: {{ envOr "COCKROACH_SSL_KEY" ""  }}
+  url: {{envOr "DATABASE_URL" "mysql://root:root@(localhost:3306)/goshorter_production?parseTime=true&multiStatements=true&readTimeout=3s&collation=utf8mb4_general_ci"}}
