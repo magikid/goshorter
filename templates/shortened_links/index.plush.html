@@ -1,8 +1,8 @@
 <div class="py-4 mb-2">
-  <h3 class="d-inline-block">ShortenedLinks</h3>
+  <h3 class="d-inline-block"><%= t("shortenedLink.name") %>s</h3>
   <div class="float-end">
     <%= linkTo(newShortenedLinksPath(), {class: "btn btn-primary"}) { %>
-      Create New ShortenedLink
+      Create New <%= t("shortenedLink.name") %>
     <% } %>
   </div>
 </div>
@@ -15,6 +15,11 @@
     <th>Hits</th>
   </thead>
   <tbody>
+    <%= if (len(shortenedLinks) == 0) { %>
+      <tr>
+        <td colspan="3">No shortened links found.</td>
+      </tr>
+    <% } %>
     <%= for (shortenedLink) in shortenedLinks { %>
       <tr>
         <td><%= shortenedLink.ShortCode %> </td>
