@@ -12,35 +12,30 @@ on:
     types: manual
 
 jobs:
-  release:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        go: ["1.17"]
-    build:
-      runs-on: ${{ matrix.os }}
-      steps:
-        - uses: actions/setup-go@v3
-          with:
-            go-version: ${{ matrix.go }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
 
-        - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-        - name: Vars
-          id: vars
-          run: |
-            echo "::set-output name=version_tag::${GITHUB_REF/refs\/tags\//}"
-            echo "::set-output name=go_cache::$(go env GOCACHE)"
+      - name: Vars
+        id: vars
+        run: |
+          echo "::set-output name=version_tag::${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=go_cache::$(go env GOCACHE)"
 
-        - name: Cache the build cache
-          uses: actions/cache@v2
-          with:
-            path: ${{ steps.vars.outputs.go_cache }}
-            key: ${{ runner.os }}-go${{ matrix.go }}-release-${{ hashFiles('**/go.sum') }}
-            restore-keys: |
-                          ${{ runner.os }}-go${{ matrix.go }}-release
+      - name: Cache the build cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.vars.outputs.go_cache }}
+          key: ${{ runner.os }}-go${{ matrix.go }}-release-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+                        ${{ runner.os }}-go${{ matrix.go }}-release
 
-        - run: mkdir -p public/assets
-        - run: go get -u github.com/gobuffalo/buffalo/buffalo
-        - run: go mod download
-        - run: buffalo build --clean-assets --static --environment production
+      - run: mkdir -p public/assets
+      - run: go get -u github.com/gobuffalo/buffalo/buffalo
+      - run: go mod download
+      - run: buffalo build --clean-assets --static --environment production
