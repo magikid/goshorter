@@ -64,6 +64,7 @@ func App() *buffalo.App {
 		app.Use(translations())
 
 		app.Resource("/shortened_links", ShortenedLinksResource{})
+		app.GET("/{shortCode}", RedirectHandler)
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
 	}
 
