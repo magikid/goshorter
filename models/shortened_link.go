@@ -8,7 +8,7 @@ import (
 	"github.com/gobuffalo/validate/v3"
 	"github.com/gobuffalo/validate/v3/validators"
 	"github.com/gofrs/uuid"
-	"github.com/lithammer/shortuuid/v4"
+	"github.com/thanhpk/randstr"
 )
 
 // ShortenedLink is used by pop to map your shortened_links database table to your go code.
@@ -61,7 +61,7 @@ func (s *ShortenedLink) ValidateUpdate(tx *pop.Connection) (*validate.Errors, er
 
 func (s *ShortenedLink) BeforeValidate(tx *pop.Connection) error {
 	if s.ShortCode == "" {
-		s.ShortCode = shortuuid.New()
+		s.ShortCode = randstr.String(6)
 	}
 	return nil
 }
