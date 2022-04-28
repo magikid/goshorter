@@ -1,0 +1,34 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">ShortenedLinks</h3>
+  <div class="float-end">
+    <%= linkTo(newShortenedLinksPath(), {class: "btn btn-primary"}) { %>
+      Create New ShortenedLink
+    <% } %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-light">
+
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (shortenedLink) in shortenedLinks { %>
+      <tr>
+
+        <td>
+          <pre><%= shortenedLink.URL %></pre>
+          <div class="float-end">
+            <%= linkTo(shortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-info", body: "View"}) %>
+            <%= linkTo(editShortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-warning", body: "Edit"}) %>
+            <%= linkTo(shortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-danger", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>
