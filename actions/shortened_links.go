@@ -259,3 +259,24 @@ func (v ShortenedLinksResource) Destroy(c buffalo.Context) error {
 		return c.Render(http.StatusOK, r.XML(shortenedLink))
 	}).Respond(c)
 }
+
+// Show gets the data for one ShortenedLink. This function is mapped to
+// the path GET /shortened_links/{shortened_link_id}
+func RedirectHandler(c buffalo.Context) error {
+	// Get the DB connection from the context
+	_, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return fmt.Errorf("no transaction found")
+	}
+
+	// Allocate an empty ShortenedLink
+	shortenedLink := &models.ShortenedLink{}
+
+	err := models.DB.Where("short_code = ?", c.Param("shortCode")).First(shortenedLink)
+
+	if err != nil {
+		return c.Error(http.StatusNotFound, err)
+	}
+	c.Logger().Infof("Redirecting to %v", shortenedLink.URL)
+	return c.Redirect(http.StatusTemporaryRedirect, shortenedLink.URL)
+}
