@@ -9,3 +9,5 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     ports:
       - "3306:3306"
+    volumes:
+      - ./disable_stats.cnf:/etc/mysql/conf.d/disable_stats.cnf
