@@ -12,7 +12,7 @@
 
 
 <ul class="list-group mb-2 ">
-  <li>URL: <%= shortenedLink.URL %></li>
-  <li>Short Code: <%= shortenedLink.ShortCode %></li>
+  <li>URL: <a href="<%= shortenedLink.URL %>"><%= shortenedLink.URL %></a></li>
+  <li>Short Code: <a href="/s/<%= shortenedLink.ShortCode %>"><%= shortenedLink.ShortCode %></a></li>
   <li>Hits: <%= shortenedLink.Hits %></li>
 </ul>

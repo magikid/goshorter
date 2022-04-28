@@ -15,6 +15,8 @@ import (
 	i18n "github.com/gobuffalo/mw-i18n/v2"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
 	"github.com/unrolled/secure"
+
+	"github.com/markbates/goth/gothic"
 )
 
 // ENV is used to help switch settings based on where the
@@ -63,8 +65,21 @@ func App() *buffalo.App {
 		// Setup and use translations:
 		app.Use(translations())
 
+		app.GET("/", HomeHandler)
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+		app.Middleware.Skip(Authorize, RedirectHandler, HomeHandler)
+
+		bah := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
+		auth := app.Group("/auth")
+		auth.GET("/{provider}", bah)
+		auth.DELETE("/logout", AuthDestroy)
+		auth.Middleware.Skip(Authorize, bah, AuthCallback)
+		auth.GET("/{provider}/callback", AuthCallback)
+
 		app.Resource("/shortened_links", ShortenedLinksResource{})
-		app.GET("/{shortCode}", RedirectHandler)
+		app.GET("/s/{shortCode}", RedirectHandler)
+
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
 	}
 
