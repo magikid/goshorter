@@ -18,6 +18,7 @@ type ShortenedLink struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 	URL       string    `json:"url" db:"url"`
 	ShortCode string    `json:"short_code" db:"short_code"`
+	Hits      int       `json:"hits" db:"hits"`
 }
 
 // String is not required by pop and may be deleted
