@@ -1,4 +1,8 @@
 <%= form_for( shortenedLink ) { %>
     <%= f.InputTag("URL") %>
+    <small><%= t("shortenedLink.url.help") %></small><br><br>
+    <%= f.InputTag("ShortCode") %>
+    <small><%= t("shortenedLink.short_code.help") %></small><br><br>
     <%= f.SubmitTag("Save", {class: "btn btn-success", role: "submit"}) %>
+    <%= linkTo(shortenedLinksPath(), {class: "btn btn-warning", "data-confirm": "Are you sure?", body: "Cancel"}) %>
 <% } %>
