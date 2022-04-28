@@ -260,8 +260,6 @@ func (v ShortenedLinksResource) Destroy(c buffalo.Context) error {
 	}).Respond(c)
 }
 
-// Show gets the data for one ShortenedLink. This function is mapped to
-// the path GET /shortened_links/{shortened_link_id}
 func RedirectHandler(c buffalo.Context) error {
 	// Get the DB connection from the context
 	_, ok := c.Value("tx").(*pop.Connection)
@@ -277,6 +275,14 @@ func RedirectHandler(c buffalo.Context) error {
 	if err != nil {
 		return c.Error(http.StatusNotFound, err)
 	}
+
+	shortenedLink.Hits++
+	err = models.DB.Update(shortenedLink)
+
+	if err != nil {
+		c.Logger().Error(err)
+	}
+
 	c.Logger().Infof("Redirecting to %v", shortenedLink.URL)
 	return c.Redirect(http.StatusTemporaryRedirect, shortenedLink.URL)
 }

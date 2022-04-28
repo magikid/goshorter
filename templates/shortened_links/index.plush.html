@@ -10,14 +10,17 @@
 <table class="table table-hover table-bordered">
   <thead class="thead-light">
 
-    <th>&nbsp;</th>
+    <th>Short Code</th>
+    <th>URL</th>
+    <th>Hits</th>
   </thead>
   <tbody>
     <%= for (shortenedLink) in shortenedLinks { %>
       <tr>
-
+        <td><%= shortenedLink.ShortCode %> </td>
+        <td><pre><%= shortenedLink.URL %></pre></td>
+        <td><%= shortenedLink.Hits %> </td>
         <td>
-          <pre><%= shortenedLink.URL %></pre>
           <div class="float-end">
             <%= linkTo(shortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-info", body: "View"}) %>
             <%= linkTo(editShortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-warning", body: "Edit"}) %>
