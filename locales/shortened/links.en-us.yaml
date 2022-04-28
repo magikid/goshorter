@@ -1,0 +1,6 @@
+- id: "shortened_link.created.success"
+  translation: "ShortenedLink was successfully created."
+- id: "shortened_link.updated.success"
+  translation: "ShortenedLink was successfully updated."
+- id: "shortened_link.destroyed.success"
+  translation: "ShortenedLink was successfully destroyed."
