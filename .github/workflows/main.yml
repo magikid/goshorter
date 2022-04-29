@@ -10,35 +10,35 @@ on:
     types: manual
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  ci:
+    strategy:
+      matrix:
+        os: ["windows-latest", "ubuntu-latest", "macOS-latest"]
+        go: ["1.16.x", "1.17.x"]
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/setup-go@v3
-        with:
-          go-version: "1.17.7"
-
       - uses: actions/checkout@v3
-
-      - name: Vars
-        id: vars
-        run: |
-          echo "::set-output name=version_tag::${GITHUB_REF/refs\/tags\//}"
-          echo "::set-output name=go_cache::$(go env GOCACHE)"
-
-      - name: Cache the build cache
-        uses: actions/cache@v2
+      - uses: WillAbides/setup-go-faster@v1.7.0
+        id: gofaster
         with:
-          path: ${{ steps.vars.outputs.go_cache }}
-          key: ${{ runner.os }}-go1.17.7-release-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-                        ${{ runner.os }}-go1.17.7-release
-
-      - run: mkdir -p public/assets
-      - run: go install github.com/gobuffalo/cli/cmd/buffalo@v0.18.3
-      - run: go mod download
-      - run: yarn install
+          go-version: ${{ matrix.go }}
+      - uses: actions/cache@v3
+        with:
+          key: ${{runner.os}}-go${{matrix.go}}-${{ hashFiles('**/go.sum') }}
+          path: |
+            ${{steps.gofaster.outputs.GOCACHE}}
+            ${{steps.gofaster.outputs.GOMODCACHE}}
+      - run: 'go install github.com/gobuffalo/cli/cmd/buffalo@v0.18.3'
+      - run: 'go mod download'
+      - run: 'yarn install'
+      - run: 'go vet ./...'
+      - uses: dominikh/staticcheck-action@v1.1.0
+        with:
+          version: "2021.1.1"
+          install-go: false
+          cache-key: ${{ matrix.go }}
       - name: Build release package
-        run: buffalo build --verbose --clean-assets --static --environment production
+        run: 'mkdir -p public/assets && buffalo build --verbose --clean-assets --static --environment production'
         if: startsWith(github.ref, 'refs/tags/')
       - name: Create github release
         uses: softprops/action-gh-release@v1
