@@ -38,3 +38,8 @@ jobs:
       - run: go mod download
       - run: yarn install
       - run: buffalo build --verbose --clean-assets --static --environment production
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: bin/*
+          prerelease: true
