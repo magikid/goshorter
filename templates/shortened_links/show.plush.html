@@ -1,0 +1,18 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">ShortenedLink Details</h3>
+  <div class="float-end">
+    <%= linkTo(shortenedLinksPath(), {class: "btn btn-info"}) { %>
+      Back to all ShortenedLinks
+    <% } %>
+    <%= linkTo(editShortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-warning", body: "Edit"}) %>
+    <%= linkTo(shortenedLinkPath({ shortened_link_id: shortenedLink.ID }), {class: "btn btn-danger", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+  </div>
+</div>
+
+
+
+<ul class="list-group mb-2 ">
+  <li>URL: <a href="<%= shortenedLink.URL %>"><%= shortenedLink.URL %></a></li>
+  <li>Short Code: <a href="/s/<%= shortenedLink.ShortCode %>"><%= shortenedLink.ShortCode %></a></li>
+  <li>Hits: <%= shortenedLink.Hits %></li>
+</ul>

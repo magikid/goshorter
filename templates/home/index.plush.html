@@ -1,0 +1,9 @@
+<%= if (current_user) { %>
+  Hello <%= current_user.Name %>! <%= linkTo(authLogoutPath(), {body: "Logout"}) %>
+  <br>
+  <%= linkTo(shortenedLinksPath(), {body: "Links"}) %><br>
+
+
+<% } else { %>
+  <a href="/auth/github">Sign in with Github</a>
+<% } %>

@@ -1,0 +1,7 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">New <%= t("shortenedLink.name") %></h3>
+</div>
+
+<%= formFor(shortenedLink, {action: shortenedLinksPath(), method: "POST"}) { %>
+  <%= partial("shortened_links/form.html") %>
+<% } %>

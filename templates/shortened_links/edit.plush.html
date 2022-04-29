@@ -1,0 +1,7 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Edit <%= t("shortenedLink.name") %></h3>
+</div>
+
+<%= form_for(shortenedLink, {action: shortenedLinkPath({ shortened_link_id: shortenedLink.ID }), method: "PUT"}) { %>
+  <%= partial("shortened_links/form.html") %>
+<% } %>

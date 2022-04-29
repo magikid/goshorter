@@ -1,0 +1,8 @@
+create_table("shortened_links") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("url", "string")
+	t.Column("short_code", "string")
+	t.Timestamps()
+
+	t.AddIndex("short_code", {"unique": true})
+}

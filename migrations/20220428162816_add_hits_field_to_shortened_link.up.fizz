@@ -1,0 +1,1 @@
+add_column("shortened_links", "hits", "int", {"default": 0})
