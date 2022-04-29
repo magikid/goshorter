@@ -36,5 +36,4 @@ jobs:
       - run: mkdir -p public/assets
       - run: go install github.com/gobuffalo/cli/cmd/buffalo@v0.18.3
       - run: go mod download
-      - run: buffalo setup
-      - run: buffalo build --clean-assets --static --environment production
+      - run: buffalo build --verbose --clean-assets --static --environment production
