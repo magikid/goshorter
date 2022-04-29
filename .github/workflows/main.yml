@@ -34,6 +34,6 @@ jobs:
                         ${{ runner.os }}-go1.17.7-release
 
       - run: mkdir -p public/assets
-      - run: go get -u github.com/gobuffalo/buffalo/buffalo
+      - run: go install github.com/gobuffalo/cli/cmd/buffalo@v0.18.3
       - run: go mod download
       - run: buffalo build --clean-assets --static --environment production
