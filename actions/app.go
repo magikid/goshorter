@@ -72,8 +72,8 @@ func App() *buffalo.App {
 
 		bah := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
 		auth := app.Group("/auth")
+		auth.GET("/logout", AuthDestroy)
 		auth.GET("/{provider}", bah)
-		auth.DELETE("/logout", AuthDestroy)
 		auth.Middleware.Skip(Authorize, bah, AuthCallback)
 		auth.GET("/{provider}/callback", AuthCallback)
 

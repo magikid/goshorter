@@ -67,7 +67,7 @@ func AuthCallback(c buffalo.Context) error {
 	}
 
 	c.Flash().Add("success", "You have been logged in")
-	return c.Redirect(302, "shortenedLinkPath()")
+	return c.Redirect(302, "shortenedLinksPath()")
 }
 
 func AuthDestroy(c buffalo.Context) error {
