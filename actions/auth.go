@@ -17,7 +17,7 @@ func init() {
 	gothic.Store = App().SessionStore
 
 	goth.UseProviders(
-		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:8080/auth/github/callback"),
+		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), os.Getenv("REDIRECT_URI")),
 	)
 }
 
