@@ -8,29 +8,26 @@ RUN mkdir -p /src/github.com/magikid/goshorter
 WORKDIR /src/github.com/magikid/goshorter
 
 # this will cache the npm install step, unless package.json changes
-ADD package.json .
-ADD yarn.lock .
-RUN yarn install --no-progress
+COPY package.json yarn.lock ./
+RUN yarn install
 # Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
+COPY go.mod go.sum ./
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
 RUN go mod download
 
-ADD . .
-RUN buffalo build --static -o /bin/app
+COPY . .
+RUN yarn install && buffalo build --static -o /bin/app
 
-FROM alpine
-RUN apk add --no-cache bash
-RUN apk add --no-cache ca-certificates
+FROM alpine:3
+RUN apk add --no-cache bash==5.1.16-r2 ca-certificates==20220614-r0
 
 WORKDIR /bin/
 
 COPY --from=builder /bin/app .
 
 # Uncomment to run the binary in "production" mode:
-# ENV GO_ENV=production
+ENV GO_ENV=production
 
 # Bind the app to 0.0.0.0 so it can be seen from outside the container
 ENV ADDR=0.0.0.0
@@ -39,4 +36,4 @@ EXPOSE 3000
 
 # Uncomment to run the migrations before running the binary:
 # CMD /bin/app migrate; /bin/app
-CMD exec /bin/app
+CMD ["exec", "/bin/app"]
